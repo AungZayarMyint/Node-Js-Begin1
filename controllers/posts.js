@@ -27,13 +27,20 @@ exports.renderCreatePage = (req, res) => {
 };
 
 exports.renderHomePage = (req, res) => {
+  //split - array နဲ့သိမ်းပြီး ခွဲထုတ်ပေး
+  const cookie = req.get("Cookie").split("=")[1].trim() === "true";
+
   Post.find()
     .select("title")
     .populate("userId", "username")
     .sort({ title: 1 })
     .then((posts) => {
       console.log(posts);
-      res.render("home", { title: "Home Page", postsArr: posts });
+      res.render("home", {
+        title: "Home Page",
+        postsArr: posts,
+        isLogIn: cookie,
+      });
     })
     .catch((err) => console.log(err));
 };
