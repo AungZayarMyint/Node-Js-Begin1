@@ -6,8 +6,11 @@
   dolore commodi cum dolorem deleniti soluta, ea nemo.
 </p>
 
-<% if(isLogIn) { %>
+<% if(isLogin) { %>
 <a href="/admin/create-post">Add a new post</a>
+<form action="/logout" method="post">
+  <button>Log Out</button>
+</form>
 <% } else { %>
 <a href="/login">Create a new account</a>
 <% } %>

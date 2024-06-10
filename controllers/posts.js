@@ -28,7 +28,7 @@ exports.renderCreatePage = (req, res) => {
 
 exports.renderHomePage = (req, res) => {
   //split - array နဲ့သိမ်းပြီး ခွဲထုတ်ပေး
-  const cookie = req.get("Cookie").split("=")[1].trim() === "true";
+  // const cookie = req.get("Cookie").split("=")[1].trim() === "true";
 
   Post.find()
     .select("title")
@@ -39,7 +39,7 @@ exports.renderHomePage = (req, res) => {
       res.render("home", {
         title: "Home Page",
         postsArr: posts,
-        isLogIn: cookie,
+        isLogin: req.session.isLogin ? true : false,
       });
     })
     .catch((err) => console.log(err));
