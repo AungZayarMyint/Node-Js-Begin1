@@ -12,7 +12,8 @@
   <button>Log Out</button>
 </form>
 <% } else { %>
-<a href="/login">Create a new account</a>
+<a href="/login">Login to an existing account</a>
+<a href="/register">Register an account? press here bby!</a>
 <% } %>
 
 <hr />
@@ -27,7 +28,6 @@
 <div class="post-box">
   <div>
     <p class="post-title"><%= post.title %></p>
-    <p>Post by <%= post.userId.username %></p>
   </div>
   <a class="btn" href="/post/<%= post._id %>">See More...</a>
 </div>

@@ -42,12 +42,12 @@ app.use(
 );
 
 // custom middlewares
-app.use((req, res, next) => {
-  User.findById("6665ba2a0d6a027912a9f3ef").then((user) => {
-    req.user = user;
-    next();
-  });
-});
+// app.use((req, res, next) => {
+//   User.findById("6665ba2a0d6a027912a9f3ef").then((user) => {
+//     req.user = user;
+//     next();
+//   });
+// });
 
 // connect routes
 app.use("/admin", adminRoutes);
@@ -55,22 +55,7 @@ app.use(postRoutes);
 app.use(authRoutes);
 
 // connect database
-mongoose
-  .connect(process.env.MONGODB_URL)
-  .then((_) => {
-    app.listen(8080);
-    console.log("connected to server");
-
-    return User.findOne().then((user) => {
-      if (!user) {
-        User.create({
-          username: "Leo",
-          email: "leo@gmail.com",
-          password: "abcd",
-        });
-      }
-      return user;
-    });
-  })
-  .then((result) => console.log(result))
-  .catch((err) => console.log(err));
+mongoose.connect(process.env.MONGODB_URL).then((_) => {
+  app.listen(8080);
+  console.log("connected to server");
+});
