@@ -32,14 +32,12 @@ exports.renderHomePage = (req, res) => {
 
   Post.find()
     .select("title")
-    .populate("userId", "username")
+    .populate("userId", "email")
     .sort({ title: 1 })
     .then((posts) => {
-      // console.log(posts);
       res.render("home", {
         title: "Home Page",
         postsArr: posts,
-        isLogin: req.session.isLogin ? true : false,
       });
     })
     .catch((err) => console.log(err));

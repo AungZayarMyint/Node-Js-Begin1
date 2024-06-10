@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 const session = require("express-session");
 const mongoStore = require("connect-mongodb-session")(session);
+const csrf = require("csurf");
 
 const app = express();
 
@@ -18,16 +19,18 @@ const postRoutes = require("./routes/post");
 const adminRoutes = require("./routes/admin");
 const authRoutes = require("./routes/auth");
 
+const User = require("./models/user");
+
+const user = require("./models/user");
+
+const { isLogin } = require("./middleware/is-login");
+
 const store = new mongoStore({
   uri: process.env.MONGODB_URI,
   collection: "sessions",
 });
 
-// models
-const User = require("./models/user");
-const user = require("./models/user");
-
-// const { mongodbConnector } = require("./utils/database");
+const csrfProtect = csrf();
 
 // middlewares
 app.use(express.static(path.join(__dirname, "public")));
@@ -41,16 +44,31 @@ app.use(
   })
 );
 
+app.use(csrfProtect);
+
 // custom middlewares
-// app.use((req, res, next) => {
-//   User.findById("6665ba2a0d6a027912a9f3ef").then((user) => {
-//     req.user = user;
-//     next();
-//   });
-// });
+app.use((req, res, next) => {
+  if (req.session.isLogin === undefined) {
+    return next();
+  }
+  User.findById(req.session.userInfo._id)
+    .select("_id email")
+    .then((user) => {
+      req.user = user;
+      next();
+    });
+});
+
+// to send csrfToken for every pages render
+// locals - nodejsက render ချပေးလိုက်တဲ့ကောင်တွေကို csrf ထည့်ပေး
+app.use((req, res, next) => {
+  res.locals.isLogin = req.session.isLogin ? true : false;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 
 // connect routes
-app.use("/admin", adminRoutes);
+app.use("/admin", isLogin, adminRoutes);
 app.use(postRoutes);
 app.use(authRoutes);
 
