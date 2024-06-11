@@ -7,6 +7,7 @@ const dotenv = require("dotenv").config();
 const session = require("express-session");
 const mongoStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
+const flash = require("connect-flash");
 
 const app = express();
 
@@ -45,6 +46,8 @@ app.use(
 );
 
 app.use(csrfProtect);
+
+app.use(flash());
 
 // custom middlewares
 app.use((req, res, next) => {

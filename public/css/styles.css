@@ -49,15 +49,23 @@ button {
   text-transform: uppercase;
   font-weight: 600;
 }
-.details h1{
+.details h1 {
   text-align: center;
   margin: 20px 0;
 }
-.details img{
+.details img {
   width: 100%;
   height: 30rem;
   object-fit: cover;
 }
-.details p{
+.details p {
   font-size: 17px;
+}
+.msg-box {
+  text-align: center;
+  color: white;
+  border: 1px solid black;
+  background-color: red;
+  padding: 4px 10px;
+  border-radius: 10px;
 }
