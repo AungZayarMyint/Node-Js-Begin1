@@ -29,15 +29,16 @@ exports.renderCreatePage = (req, res) => {
 exports.renderHomePage = (req, res) => {
   //split - array နဲ့သိမ်းပြီး ခွဲထုတ်ပေး
   // const cookie = req.get("Cookie").split("=")[1].trim() === "true";
-
   Post.find()
-    .select("title")
     .populate("userId", "email")
     .sort({ title: 1 })
     .then((posts) => {
       res.render("home", {
         title: "Home Page",
         postsArr: posts,
+        currentUserEmail: req.session.userInfo
+          ? req.session.userInfo.email
+          : "",
       });
     })
     .catch((err) => console.log(err));
@@ -46,7 +47,15 @@ exports.renderHomePage = (req, res) => {
 exports.getPost = (req, res) => {
   const postId = req.params.postId;
   Post.findById(postId)
-    .then((post) => res.render("details", { title: post.title, post }))
+    .then((post) =>
+      res.render("details", {
+        title: post.title,
+        post,
+        currentLoginUserId: req.session.userInfo
+          ? req.session.userInfo._id
+          : "",
+      })
+    )
     .catch((err) => console.log(err));
 };
 
@@ -67,21 +76,24 @@ exports.updatePost = (req, res) => {
 
   Post.findById(postId)
     .then((post) => {
+      if (post.userId.toString() !== req.user._id.toString()) {
+        return res.redirect("/");
+      }
       post.title = title;
       post.description = description;
       post.imgUrl = photo;
-      return post.save();
+      return post.save().then((result) => {
+        console.log("post updated");
+        res.redirect("/");
+      });
     })
-    .then((result) => {
-      console.log("post updated");
-      res.redirect("/");
-    })
+
     .catch((err) => console.log(err));
 };
 
 exports.deletePost = (req, res) => {
   const { postId } = req.params;
-  Post.findByIdAndDelete(postId)
+  Post.deleteOne({ _id: postId, userId: req.user._id })
     .then(() => {
       console.log("post deleted");
       res.redirect("/");

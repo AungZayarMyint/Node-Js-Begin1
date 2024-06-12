@@ -1,36 +1,55 @@
 <%- include("./includes/head") %>
-<h1 class="title">HomePage</h1>
-<p>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad dignissimos veniam
-  pariatur autem. Maxime velit eos sint. Tempore quam cumque optio laborum
-  dolore commodi cum dolorem deleniti soluta, ea nemo.
-</p>
+<section class="header">
+  <h1 class="title">Blog.io</h1>
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad dignissimos
+    veniam pariatur autem. Maxime velit eos sint. Tempore quam cumque optio
+    laborum dolore commodi cum dolorem deleniti soluta, ea nemo. Lorem ipsum
+    dolor sit amet, consectetur adipisicing elit. Sed blanditiis soluta dolorem
+    excepturi quas. Rerum, a officiis asperiores provident dolorem ratione
+    harum? Quibusdam, non quo obcaecati saepe dicta labore debitis! Lorem ipsum
+    dolor sit amet consectetur adipisicing elit. Voluptatem esse cumque est enim
+    impedit vel officiis ex aspernatur perferendis, placeat doloremque ipsum at
+    sit labore. Aliquam obcaecati maiores sunt illo!
+  </p>
+</section>
 
 <% if(isLogin) { %>
-<a href="/admin/create-post">Add a new post</a>
-<form action="/logout" method="post">
-  <input hidden value="<%= csrfToken %>" name="_csrf" />
-  <button>Log Out</button>
-</form>
+<div class="login-div">
+  <a href="/admin/create-post">Add a new post as : <%= currentUserEmail %></a>
+  <span>OR</span>
+  <form action="/logout" method="post">
+    <input hidden value="<%= csrfToken %>" name="_csrf" />
+    <button>Log Out</button>
+  </form>
+</div>
 <% } else { %>
-<a href="/login">Login to an existing account</a>
-<a href="/register">Register an account? press here bby!</a>
+<div>
+  <div class="login-div">
+    <a href="/login">Login to an existing account</a>
+    <span>OR</span>
+    <a href="/register">Register an account? press here bby!</a>
+  </div>
+</div>
 <% } %>
 
 <hr />
-<h1 class="title">Posts</h1>
-<% if(postsArr.length === 0) { %>
+<h1 class="title">Recent Posts</h1>
+<% if(postsArr.length === 0 && isLogin) { %>
 <div>
   <h4>Nothing to see ?</h4>
   <p>Create a new post now !!!</p>
   <a href="/admin/create-post">Create a new post</a>
 </div>
-<% } %> <% for(let post of postsArr) { %>
-<div class="post-box">
-  <div>
+<% } %>
+<div class="post-container">
+  <% for(let post of postsArr) { %>
+  <div class="post-box">
     <p class="post-title"><%= post.title %></p>
-    <p>Post by => <%= post.userId.email %></p>
+    <p class="post-email">Post by : <%= post.userId.email %></p>
+    <p class="post-description"><%= post.description.substr(0,500) %></p>
+    <a class="btn" href="/post/<%= post._id %>">See More...</a>
   </div>
-  <a class="btn" href="/post/<%= post._id %>">See More...</a>
+  <% } %>
 </div>
-<% } %> <%- include("./includes/foot") %>
+<%- include("./includes/foot") %>
