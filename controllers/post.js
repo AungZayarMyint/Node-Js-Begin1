@@ -4,18 +4,27 @@ const { validationResult } = require("express-validator");
 const { formatISO9075 } = require("date-fns");
 
 exports.createPost = (req, res, next) => {
-  const { title, description, photo } = req.body;
+  const { title, description } = req.body;
   const errors = validationResult(req);
+  const image = req.file;
+
+  if (image === undefined) {
+    return res.status(422).render("addPost", {
+      title: "Post create ml",
+      errorMsg: "Image extension must be jpg, jpeg, png.",
+      oldFormData: { title, description },
+    });
+  }
 
   if (!errors.isEmpty()) {
     return res.status(422).render("addPost", {
       title: "Post create ml",
       errorMsg: errors.array()[0].msg,
-      oldFormData: { title, description, photo },
+      oldFormData: { title, description },
     });
   }
 
-  Post.create({ title, description, imgUrl: photo, userId: req.user })
+  Post.create({ title, description, imgUrl: image.path, userId: req.user })
     .then((result) => {
       console.log(result);
       res.redirect("/");
@@ -103,7 +112,6 @@ exports.getEditPost = (req, res, next) => {
         oldFormData: {
           title: undefined,
           description: undefined,
-          photo: undefined,
         },
         isValidationFail: false,
       });
@@ -116,15 +124,27 @@ exports.getEditPost = (req, res, next) => {
 };
 
 exports.updatePost = (req, res, next) => {
-  const { postId, title, description, photo } = req.body;
+  const { postId, title, description } = req.body;
   const errors = validationResult(req);
+  const image = req.file;
+
+  // if (image === undefined) {
+  //   return res.status(422).render("editPost", {
+  //     postId,
+  //     title,
+  //     isValidationFail: true,
+  //     title: "Post create ml",
+  //     errorMsg: "Image extension must be jpg, jpeg, png.",
+  //     oldFormData: { title, description },
+  //   });
+  // }
 
   if (!errors.isEmpty()) {
     return res.status(422).render("editPost", {
       postId,
       title,
       errorMsg: errors.array()[0].msg,
-      oldFormData: { title, description, photo },
+      oldFormData: { title, description },
       isValidationFail: true,
     });
   }
@@ -136,7 +156,9 @@ exports.updatePost = (req, res, next) => {
       }
       post.title = title;
       post.description = description;
-      post.imgUrl = photo;
+      if (image) {
+        post.imgUrl = image.path;
+      }
       return post.save().then((result) => {
         console.log("post updated");
         res.redirect("/");
