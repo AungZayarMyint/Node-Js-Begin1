@@ -5,7 +5,7 @@
   <% if(errorMsg.length) { %>
   <p class="msg-box"><%= errorMsg %></p>
   <% } %>
-  <form action="/reset" method="POST">
+  <form action="/reset" method="POST" novalidate>
     <input hidden value="<%= csrfToken %>" name="_csrf" />
     <div>
       <label for="email">Enter Email</label>

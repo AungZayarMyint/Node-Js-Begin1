@@ -46,6 +46,7 @@ body {
   padding-left: 40px;
   color: red;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 a {
@@ -139,7 +140,7 @@ button {
   width: 100%;
   object-fit: cover;
 }
-.details p {
+.details .des {
   font-size: 21px;
 }
 
@@ -154,4 +155,9 @@ button {
   background-color: red;
   padding: 4px 10px;
   border-radius: 10px;
+}
+
+.tmp {
+  margin: 10px 0;
+  font-weight: 600;
 }

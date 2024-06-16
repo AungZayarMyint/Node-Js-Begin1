@@ -140,23 +140,30 @@ exports.getFeedbackPage = (req, res) => {
 // reset password link sent
 exports.resetLinkSend = (req, res) => {
   const { email } = req.body;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render("auth/reset", {
+      title: "Reset Password",
+      errorMsg: errors.array()[0].msg,
+      oldFormData: { email },
+    });
+  }
+
   crypto.randomBytes(32, (err, buffer) => {
     if (err) {
       console.log(err);
       return res.redirect("/reset-password");
     }
     const token = buffer.toString("hex");
-    User.findOne({ email })
-      .then((user) => {
-        if (!user) {
-          req.flash("error", "No account found with this email!");
-          return res.redirect("/reset-password");
-        }
-        user.resetToken = token;
-        user.tokenExpiration = Date.now() + 1800000;
-        return user.save();
-      })
-      .then((result) => {
+    User.findOne({ email }).then((user) => {
+      if (!user) {
+        return res.status(422).render("auth/reset", {
+          title: "Reset Password",
+          errorMsg: "No account exist with this email address.",
+          oldFormData: { email },
+        });
+      } else {
         res.redirect("/feedback");
         transporter.sendMail(
           {
@@ -169,7 +176,11 @@ exports.resetLinkSend = (req, res) => {
             console.log(err);
           }
         );
-      });
+      }
+      user.resetToken = token;
+      user.tokenExpiration = Date.now() + 1800000;
+      return user.save();
+    });
   });
 };
 
