@@ -3,7 +3,7 @@ const { post } = require("../routes/post");
 const { validationResult } = require("express-validator");
 const { formatISO9075 } = require("date-fns");
 
-exports.createPost = (req, res) => {
+exports.createPost = (req, res, next) => {
   const { title, description, photo } = req.body;
   const errors = validationResult(req);
 
@@ -20,7 +20,11 @@ exports.createPost = (req, res) => {
       console.log(result);
       res.redirect("/");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Something wrong bby!");
+      return next(error);
+    });
 
   //   console.log(`Title value is ${title} & description is ${description}`);
   // posts.push({
@@ -41,7 +45,7 @@ exports.renderCreatePage = (req, res) => {
   });
 };
 
-exports.renderHomePage = (req, res) => {
+exports.renderHomePage = (req, res, next) => {
   //split - array နဲ့သိမ်းပြီး ခွဲထုတ်ပေး
   // const cookie = req.get("Cookie").split("=")[1].trim() === "true";
   Post.find()
@@ -56,10 +60,14 @@ exports.renderHomePage = (req, res) => {
           : "",
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Something wrong bby!");
+      return next(error);
+    });
 };
 
-exports.getPost = (req, res) => {
+exports.getPost = (req, res, next) => {
   const postId = req.params.postId;
   Post.findById(postId)
     .populate("userId", "email")
@@ -73,10 +81,14 @@ exports.getPost = (req, res) => {
           : "",
       })
     )
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Post not found with this ID");
+      return next(error);
+    });
 };
 
-exports.getEditPost = (req, res) => {
+exports.getEditPost = (req, res, next) => {
   const postId = req.params.postId;
   Post.findById(postId)
     .then((post) => {
@@ -96,10 +108,14 @@ exports.getEditPost = (req, res) => {
         isValidationFail: false,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Something wrong bby!");
+      return next(error);
+    });
 };
 
-exports.updatePost = (req, res) => {
+exports.updatePost = (req, res, next) => {
   const { postId, title, description, photo } = req.body;
   const errors = validationResult(req);
 
@@ -127,15 +143,23 @@ exports.updatePost = (req, res) => {
       });
     })
 
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Something wrong bby!");
+      return next(error);
+    });
 };
 
-exports.deletePost = (req, res) => {
+exports.deletePost = (req, res, next) => {
   const { postId } = req.params;
   Post.deleteOne({ _id: postId, userId: req.user._id })
     .then(() => {
       console.log("post deleted");
       res.redirect("/");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Something wrong bby!");
+      return next(error);
+    });
 };

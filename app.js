@@ -9,6 +9,7 @@ const mongoStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
 
+// server
 const app = express();
 
 // engine
@@ -22,9 +23,12 @@ const authRoutes = require("./routes/auth");
 
 const User = require("./models/user");
 
+const errorController = require("./controllers/error");
+
 const user = require("./models/user");
 
 const { isLogin } = require("./middleware/is-login");
+const { title } = require("process");
 
 const store = new mongoStore({
   uri: process.env.MONGODB_URI,
@@ -74,6 +78,10 @@ app.use((req, res, next) => {
 app.use("/admin", isLogin, adminRoutes);
 app.use(postRoutes);
 app.use(authRoutes);
+
+app.all("*", errorController.get404Page);
+
+app.use(errorController.get500Page);
 
 // connect database
 mongoose.connect(process.env.MONGODB_URL).then((_) => {
