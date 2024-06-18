@@ -141,6 +141,7 @@ button {
 .details img {
   width: 100%;
   object-fit: cover;
+  margin-top: 15px;
 }
 .details .des {
   font-size: 21px;
