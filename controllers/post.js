@@ -8,6 +8,9 @@ const fs = require("fs");
 const expath = require("path");
 
 const fileDelete = require("../utils/fileDelete");
+
+const POST_PER_PAGE = 3;
+
 const path = require("path");
 const { type } = require("os");
 
@@ -56,17 +59,52 @@ exports.renderCreatePage = (req, res) => {
 exports.renderHomePage = (req, res, next) => {
   //split - array နဲ့သိမ်းပြီး ခွဲထုတ်ပေး
   // const cookie = req.get("Cookie").split("=")[1].trim() === "true";
+
+  const pageNumber = +req.query.page || 1;
+  let totalPostNumber;
+
+  // page => 1 -1 = 0
+  // per page = 3 x 0 = 0
+
+  // page => 2 -1 = 1
+  // per page = 3 x 1 = 3
+
+  // page => 3 -1 = 2
+  // per page = 3 x 2 = 6
+
+  // page => 4 -1 = 3
+  // per page = 3 x 3 = 9
+
   Post.find()
-    .populate("userId", "email")
-    .sort({ title: 1 })
+    .countDocuments()
+    .then((totalPostCount) => {
+      totalPostNumber = totalPostCount;
+      return Post.find()
+        .populate("userId", "email")
+        .skip((pageNumber - 1) * POST_PER_PAGE)
+        .limit(POST_PER_PAGE)
+        .sort({ createdAt: -1 });
+    })
     .then((posts) => {
-      res.render("home", {
-        title: "Home Page",
-        postsArr: posts,
-        currentUserEmail: req.session.userInfo
-          ? req.session.userInfo.email
-          : "",
-      });
+      if (posts.length > 0) {
+        return res.render("home", {
+          title: "Home Page",
+          postsArr: posts,
+          currentUserEmail: req.session.userInfo
+            ? req.session.userInfo.email
+            : "",
+          currentPage: pageNumber,
+          hasNextPage: POST_PER_PAGE * pageNumber < totalPostNumber,
+          hasPreviousPage: pageNumber > 1,
+          nextPage: pageNumber + 1,
+          previousPage: pageNumber - 1,
+        });
+      } else {
+        return res.status(500).render("error/500", {
+          title: "Something Went Wrong",
+          message: "no post in this page query!",
+        });
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -202,21 +240,17 @@ exports.savePostAsPdf = (req, res, next) => {
   const html = fs.readFileSync(templateUrl, "utf8");
 
   const options = {
-    format: "A3",
+    format: "A4",
     orientation: "portrait",
     border: "10mm",
     header: {
-      height: "45mm",
+      height: "20mm",
       contents:
-        '<h3 style="text-align: center;">PDF Download From Blog.io</h3>',
+        '<h2 style="text-align: center;">PDF Download From Blog.io</h2>',
     },
     footer: {
-      height: "28mm",
-      contents: {
-        first: "Cover page",
-        contents:
-          '<span style="color: #444; text-align: center;">@johathan.mm</span>',
-      },
+      height: "15mm",
+      contents: '<p style="color: #444; text-align: center;">@johathan.mm</p>',
     },
   };
 

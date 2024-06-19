@@ -8,7 +8,11 @@
   <body>
     <h1>{{post.title}}</h1>
     <p>Author - {{post.userId.email}}</p>
-    <img src="http://localhost:8080/{{post.imgUrl}}" alt="{{post.title}}" />
+    <img
+      src="http://localhost:8080/{{post.imgUrl}}"
+      width="100%"
+      alt="{{post.title}}"
+    />
     <p>{{post.description}}</p>
   </body>
 </html>

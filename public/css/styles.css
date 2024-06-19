@@ -2,8 +2,6 @@
 
 * {
   font-family: "Titillium Web", sans-serif;
-  margin: 0;
-  padding: 0;
 }
 
 body {
@@ -223,4 +221,15 @@ section.four .content a {
 
 section.four .content a:hover {
   background-color: rgb(128, 128, 128); /* Darken on hover */
+}
+
+hr {
+  margin: 20px 0;
+}
+
+.paginate {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
 }
