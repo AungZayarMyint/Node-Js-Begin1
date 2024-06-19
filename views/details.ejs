@@ -2,24 +2,28 @@
 <section class="details">
   <div>
     <h1><%= post.title %></h1>
-    <a href="/">Go Back Home</a>
+    <a href="/" class="gobackhome"><i class="fa-solid fa-circle-arrow-left"></i></a>
   </div>
-  <p class="tmp">Post by => <%= post.userId.email %></p>
+  <div>
+    <div class="brnyr">
+      <p class="tmp"> <i class="fa-solid fa-user"></i> <%= post.userId.email %></p>
   <% if(date) { %>
-  <p class="tmp">Upload at => <%= date %></p>
+  <p class="tmp"> <i class="fa-regular fa-calendar-days"></i> <%= date %></p>
   <% } %>
-  <a href="/save/<%= post._id %>">Save a copy to your device.</a>
+    </div>
+    <a href="/save/<%= post._id %>" class="gobackhome"><i class="fa-solid fa-cloud-arrow-down"></i></a>
+  </div>
   <img src="<%= '/' + post.imgUrl %>" alt="<%= post.title %>" />
+  <% if(post.userId._id.toString() === currentLoginUserId.toString()) { %>
+    <div class="action-div">
+      <form action="/admin/delete/<%= post._id%>" method="post">
+        <input hidden value="<%= csrfToken %>" name="_csrf" />
+        <button class="gobackhome"><i class="fa-solid fa-trash"></i></button>
+      </form>
+      <a href="/admin/edit/<%= post._id%>" class="gobackhome"><i class="fa-solid fa-file-pen"></i></a>
+    </div>
+    <% } %>
   <hr />
   <p class="des"><%= post.description %></p>
-  <% if(post.userId._id.toString() === currentLoginUserId.toString()) { %>
-  <div class="login-div">
-    <form action="/admin/delete/<%= post._id%>" method="post">
-      <input hidden value="<%= csrfToken %>" name="_csrf" />
-      <button>Delete</button>
-    </form>
-    <a href="/admin/edit/<%= post._id%>">Edit</a>
-  </div>
-  <% } %>
 </section>
 <%- include("./includes/foot") %>

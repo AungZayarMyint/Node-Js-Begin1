@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const postController = require("../controllers/post");
+const userController = require("../controllers/user")
 const { body } = require("express-validator");
 
 // /admin/create-post
@@ -35,5 +36,7 @@ router.post(
 );
 
 router.post("/delete/:postId", postController.deletePost);
+
+router.get("/profile",userController.getProfile)
 
 module.exports = router;

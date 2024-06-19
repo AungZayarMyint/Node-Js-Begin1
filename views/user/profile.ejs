@@ -1,0 +1,34 @@
+<%- include("../includes/head") %>
+
+<section class="profile">
+  <h1 class="title">
+    <i class="fa-solid fa-user-secret"></i> <%= currentUserEmail%>
+  </h1>
+  <div class="post-container">
+    <% for(let post of postsArr) { %>
+    <div class="post-box">
+      <img
+        src="<%= '/' + post.imgUrl %>"
+        alt="<%= post.title %>"
+        class="post-box-img"
+      />
+      <a href="/post/<%= post._id %>"><%= post.title %></a>
+      <p class="post-description"><%= post.description.substr(0,400) %></p>
+      <hr />
+      <p class="post-email">Post by : <%= post.userId.email %></p>
+    </div>
+    <% } %>
+  </div>
+
+  <div class="paginate">
+    <% if(hasNextPage) { %>
+    <a href="/admin/profile?page=<%= nextPage %>">Next Page <%= nextPage %></a>
+    <% } %> <% if(hasPreviousPage) { %>
+    <a href="/admin/profile?page=<%= previousPage %>"
+      >Previous Page <%= previousPage %></a
+    >
+    <% } %>
+  </div>
+</section>
+
+<%- include("../includes/foot") %>

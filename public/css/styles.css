@@ -4,8 +4,50 @@
   font-family: "Titillium Web", sans-serif;
 }
 
+.post-box-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+a {
+  margin: 10px 0;
+  color: #fff;
+  background-color: red;
+  padding: 8px 0;
+  width: fit-content;
+  text-decoration: none;
+  border-radius: 10px;
+  font-style: italic;
+}
+
+.post-box a {
+  color: #9af0eb;
+  background-color: transparent;
+  font-size: 25px;
+}
+
 body {
   background: linear-gradient(to right, #decba4, #3e5151);
+}
+
+nav {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: red;
+  padding: 0 10px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+nav div {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .header {
@@ -35,35 +77,19 @@ body {
   gap: 10px;
 }
 
-.login-div span {
-  font-size: 20px;
-  font-style: italic;
-  font-weight: 900;
-}
-
 .title {
   font-size: 30px;
-  padding-left: 40px;
   color: red;
   margin-bottom: 20px;
   text-align: center;
 }
 
-a {
-  margin: 10px 0;
-  color: #fff;
-  background-color: red;
-  padding: 8px 10px;
-  width: fit-content;
-  text-decoration: none;
-  border-radius: 10px;
-  font-style: italic;
-}
 label {
   display: block;
   font-size: 16px;
   margin-top: 10px;
 }
+
 input,
 textarea {
   font-size: 18px;
@@ -71,6 +97,7 @@ textarea {
   width: 100%;
   margin-bottom: 20px;
 }
+
 button {
   margin: 10px 0;
   color: #fff;
@@ -84,6 +111,7 @@ button {
   font-size: 17px;
   cursor: pointer;
 }
+
 .mx-auto {
   width: 40%;
   margin: auto auto;
@@ -102,6 +130,8 @@ button {
   border: 2px solid black;
   border-radius: 10px;
   background: #000;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
 .post-title {
@@ -113,7 +143,7 @@ button {
 }
 
 .post-email {
-  color: white;
+  color: rgb(53, 247, 218);
 }
 
 .post-description {
@@ -125,6 +155,21 @@ button {
   margin: auto;
 }
 
+.details .gobackhome {
+  outline: none;
+  background-color: transparent;
+}
+
+.details .gobackhome i {
+  font-size: 30px;
+  color: red;
+}
+
+.details .brnyr {
+  display: flex;
+  gap: 18px;
+}
+
 .details div {
   display: flex;
   align-items: center;
@@ -132,9 +177,7 @@ button {
 }
 
 .details h1 {
-  font-size: 44px;
-  margin-top: 10px;
-  margin-bottom: 20px 0;
+  font-size: 40px;
 }
 .details img {
   width: 100%;
@@ -146,7 +189,15 @@ button {
 }
 
 .details hr {
-  margin: 20px 0;
+  margin: 10px 0;
+}
+
+.action-div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .msg-box {
@@ -161,6 +212,14 @@ button {
 .tmp {
   margin: 10px 0;
   font-weight: 600;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tmp i {
+  font-size: 25px;
 }
 
 .four {
@@ -221,10 +280,6 @@ section.four .content a {
 
 section.four .content a:hover {
   background-color: rgb(128, 128, 128); /* Darken on hover */
-}
-
-hr {
-  margin: 20px 0;
 }
 
 .paginate {

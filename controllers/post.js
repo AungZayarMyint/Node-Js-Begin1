@@ -9,7 +9,7 @@ const expath = require("path");
 
 const fileDelete = require("../utils/fileDelete");
 
-const POST_PER_PAGE = 3;
+const POST_PER_PAGE = 6;
 
 const path = require("path");
 const { type } = require("os");
@@ -80,6 +80,7 @@ exports.renderHomePage = (req, res, next) => {
     .then((totalPostCount) => {
       totalPostNumber = totalPostCount;
       return Post.find()
+        .select("title description imgUrl")
         .populate("userId", "email")
         .skip((pageNumber - 1) * POST_PER_PAGE)
         .limit(POST_PER_PAGE)
@@ -90,9 +91,9 @@ exports.renderHomePage = (req, res, next) => {
         return res.render("home", {
           title: "Home Page",
           postsArr: posts,
-          currentUserEmail: req.session.userInfo
-            ? req.session.userInfo.email
-            : "",
+          // currentUserEmail: req.session.userInfo
+          //   ? req.session.userInfo.email
+          //   : "",
           currentPage: pageNumber,
           hasNextPage: POST_PER_PAGE * pageNumber < totalPostNumber,
           hasPreviousPage: pageNumber > 1,
