@@ -127,6 +127,7 @@ exports.getResetPage = (req, res) => {
   res.render("auth/reset", {
     title: "Reset Password",
     errorMsg: req.flash("error"),
+    oldFormData: { email: "" },
   });
 };
 

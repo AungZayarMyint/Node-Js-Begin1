@@ -99,6 +99,7 @@ exports.renderHomePage = (req, res, next) => {
           hasPreviousPage: pageNumber > 1,
           nextPage: pageNumber + 1,
           previousPage: pageNumber - 1,
+          currentUserId: req.session.userInfo ? req.session.userInfo._id : "",
         });
       } else {
         return res.status(500).render("error/500", {

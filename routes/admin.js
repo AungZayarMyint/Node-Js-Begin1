@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const postController = require("../controllers/post");
-const userController = require("../controllers/user")
+const userController = require("../controllers/user");
 const { body } = require("express-validator");
 
 // /admin/create-post
@@ -37,6 +37,18 @@ router.post(
 
 router.post("/delete/:postId", postController.deletePost);
 
-router.get("/profile",userController.getProfile)
+router.get("/profile", userController.getProfile);
+
+router.get("/username", userController.renderUsernamePage);
+
+router.post(
+  "/setusername",
+  body("username")
+    .isLength({ min: 3 })
+    .withMessage("Title must have 3 letters."),
+  userController.setUsername
+);
+
+router.get("/premium", userController.renderPremiumPage);
 
 module.exports = router;

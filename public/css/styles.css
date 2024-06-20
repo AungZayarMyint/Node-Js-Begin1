@@ -10,6 +10,10 @@
   object-fit: cover;
 }
 
+.profile-link {
+  font-size: 16px;
+}
+
 a {
   margin: 10px 0;
   color: #fff;
@@ -28,7 +32,7 @@ a {
 }
 
 body {
-  background: linear-gradient(to right, #decba4, #3e5151);
+  background: linear-gradient(to right, #8ae6f0, #3e5151);
 }
 
 nav {
@@ -144,6 +148,10 @@ button {
 
 .post-email {
   color: rgb(53, 247, 218);
+}
+
+.post-email a {
+  font-size: 16px;
 }
 
 .post-description {
@@ -287,4 +295,60 @@ section.four .content a:hover {
   flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
+}
+
+.own-profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.own-profile h2 {
+  font-size: 16px;
+  font-style: italic;
+  display: flex;
+  margin-left: 10px;
+}
+
+.profile-premium {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+  justify-content: center;
+  margin-left: 20px;
+}
+
+.premium {
+  width: 60%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+
+.card {
+  padding: 8px 20px;
+  border: 2px solid black;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.card h1 {
+  font-size: 30px;
+}
+
+.card p {
+  background-color: black;
+  color: red;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.card li {
+  text-align: left;
+  list-style: circle;
+  margin-bottom: 10px;
+  font-size: 18px;
 }

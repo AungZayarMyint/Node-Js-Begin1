@@ -1,7 +1,7 @@
 <%- include("./includes/head") %>
-<section class="header">
-</section>
+<section class="header"></section>
 <h1 class="title">Recent Posts</h1>
+
 <% if(postsArr.length === 0 && isLogin) { %>
 <div>
   <h4>Nothing to see ?</h4>
@@ -9,14 +9,28 @@
   <a href="/admin/create-post">Create a new post</a>
 </div>
 <% } %>
+
 <div class="post-container">
   <% for(let post of postsArr) { %>
   <div class="post-box">
-    <img src="<%= '/' + post.imgUrl %>" alt="<%= post.title %>" class="post-box-img"/>
+    <img
+      src="<%= '/' + post.imgUrl %>"
+      alt="<%= post.title %>"
+      class="post-box-img"
+    />
     <a href="/post/<%= post._id %>"><%= post.title %></a>
     <p class="post-description"><%= post.description.substr(0,400) %></p>
-    <hr>
-    <p class="post-email">Post by : <%= post.userId.email %></p>
+    <hr />
+    <% if(post.userId._id.toString() === currentUserId.toString()) { %>
+    <p class="post-email">
+      Post by : <a href="/admin/profile"><%= post.userId.email %></a>
+    </p>
+    <% } else { %>
+    <p class="post-email">
+      Post by :
+      <a href="/profile/<%= post.userId._id %>"><%= post.userId.email %></a>
+    </p>
+    <% } %>
   </div>
   <% } %>
 </div>
@@ -30,4 +44,5 @@
   <a href="/?page=<%= previousPage %>">Previous Page <%= previousPage %></a>
   <% } %>
 </div>
+
 <%- include("./includes/foot") %>
