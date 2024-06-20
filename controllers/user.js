@@ -1,7 +1,13 @@
 const { validationResult } = require("express-validator");
+const stripe = require("stripe")(
+  "sk_test_51PThfSRwsb1EVCM4KJskTVY7zL3QJVjVIs7kw0jXbFho96m64z7C8ePyniKkysyh8W0zaPT5jGnjFhWllXNzYdcj00gLCclyM1"
+);
+
 const Post = require("../models/post");
 const User = require("../models/user");
 const user = require("../models/user");
+const session = require("express-session");
+const { use } = require("../routes/post");
 const POST_PER_PAGE = 6;
 
 exports.getProfile = (req, res, next) => {
@@ -12,7 +18,7 @@ exports.getProfile = (req, res, next) => {
     .then((totalPostCount) => {
       totalPostNumber = totalPostCount;
       return Post.find({ userId: req.user._id })
-        .populate("userId", "email username")
+        .populate("userId", "email username isPremium")
         .skip((pageNumber - 1) * POST_PER_PAGE)
         .limit(POST_PER_PAGE)
         .sort({ createdAt: -1 });
@@ -54,7 +60,7 @@ exports.getPublicProfile = (req, res, next) => {
     .then((totalPostCount) => {
       totalPostNumber = totalPostCount;
       return Post.find({ userId: id })
-        .populate("userId", "email")
+        .populate("userId", "email username isPremium")
         .skip((pageNumber - 1) * POST_PER_PAGE)
         .limit(POST_PER_PAGE)
         .sort({ createdAt: -1 });
@@ -121,6 +127,57 @@ exports.setUsername = (req, res) => {
     });
 };
 
-exports.renderPremiumPage = (req, res) => {
-  res.render("user/premium", { title: "premium" });
+exports.renderPremiumPage = (req, res, next) => {
+  stripe.checkout.sessions
+    .create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price: "price_1PTihYRwsb1EVCM4g9vWeTvm",
+          quantity: 1,
+        },
+      ],
+      mode: "subscription",
+      success_url: `${req.protocol}://${req.get(
+        "host"
+      )}/admin/subscription-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.protocol}://${req.get(
+        "host"
+      )}/admin/subscription-cancel`,
+    })
+    .then((stripe_session) => {
+      res.render("user/premium", {
+        title: "Buy premium",
+        session_id: stripe_session.id,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Something went wrong.");
+      return next(error);
+    });
+};
+
+exports.getSuccessPage = (req, res) => {
+  const session_id = req.query.session_id;
+  if (!session_id) {
+    return res.redirect("/admin/profile");
+  }
+  User.findById(req.user._id)
+    .then((user) => {
+      user.isPremium = true;
+      user.payment_session_key = session_id;
+      return user.save();
+    })
+    .then(() => {
+      res.render("user/subscription-success", {
+        title: "Subscription Success",
+        subscription_id: session_id,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      const error = new Error("Something went wrong.");
+      return next(error);
+    });
 };

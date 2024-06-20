@@ -1,6 +1,6 @@
 <%- include("../includes/head") %>
 <section class="premium">
-  <divc class="card">
+  <div class="card">
     <h1>IO Premium</h1>
     <ul>
       <li>Can save posts as pdf file.</li>
@@ -9,7 +9,19 @@
       <li>တောင်ကြီး နှစ်ညအိပ်/ သုံးရက်</li>
       <li>(15) VVIP Channel</li>
     </ul>
-    <p>Buy IO premium</p>
-  </divc>
+    <button class="checkout-btn">Buy IO premium</button>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      var stripe = Stripe(
+        "pk_test_51PThfSRwsb1EVCM4olCwrOrtn3iv4yKV6dByPjR34K7jZ5dwgUi0pFtdg8CoTC6JcFD4uFSExKLVQZGRTlRF7fdc00n95sCMxF"
+      );
+      var checkoutBtn = document.querySelector(".checkout-btn");
+      checkoutBtn.addEventListener("click", function () {
+        stripe.redirectToCheckout({
+          sessionId: "<%= session_id %>",
+        });
+      });
+    </script>
+  </div>
 </section>
 <%- include("../includes/foot") %>

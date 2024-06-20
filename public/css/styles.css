@@ -338,7 +338,7 @@ section.four .content a:hover {
   font-size: 30px;
 }
 
-.card p {
+.card .checkout-btn {
   background-color: black;
   color: red;
   padding: 8px 10px;
@@ -351,4 +351,21 @@ section.four .content a:hover {
   list-style: circle;
   margin-bottom: 10px;
   font-size: 18px;
+}
+
+.premium-username i {
+  font-size: 18px;
+  color: yellow;
+}
+
+.premium--username {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 18px;
+}
+
+.premium--username i {
+  color: yellow;
 }

@@ -6,9 +6,19 @@
       <i class="fa-solid fa-user-secret"></i> <%= currentUserEmail%>
     </h1>
     <h2>
-      <%= postsArr[0].userId.username ? postsArr[0].userId.username : "" %>
+      <% if(postsArr[0].userId.username) { %>
+      <p class="premium-username">
+        <%= postsArr[0].userId.username %> <% if(postsArr[0].userId.isPremium) {
+        %>
+        <i
+          class="fa-solid fa-star animate__animated animate__flip animate__infinite infinite"
+        ></i>
+        <% } %>
+      </p>
+      <% } else { %>
+      <p class="premium-username"><%= postsArr[0].userId.username %></p>
+      <% } %>
     </h2>
-
     <div class="profile-premium">
       <a href="/admin/username">Set Username</a>
       <a href="/admin/premium">Get Premium</a>
