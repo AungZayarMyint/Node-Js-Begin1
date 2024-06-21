@@ -2,27 +2,38 @@
 <section class="details">
   <div>
     <h1><%= post.title %></h1>
-    <a href="/" class="gobackhome"><i class="fa-solid fa-circle-arrow-left"></i></a>
+    <a href="/" class="gobackhome"
+      ><i class="fa-solid fa-circle-arrow-left"></i
+    ></a>
   </div>
   <div>
     <div class="brnyr">
-      <p class="tmp"> <i class="fa-solid fa-user"></i> <%= post.userId.email %></p>
-  <% if(date) { %>
-  <p class="tmp"> <i class="fa-regular fa-calendar-days"></i> <%= date %></p>
-  <% } %>
+      <p class="tmp">
+        <i class="fa-solid fa-user"></i> <%= post.userId.email %>
+      </p>
+      <% if(date) { %>
+      <p class="tmp"><i class="fa-regular fa-calendar-days"></i> <%= date %></p>
+      <% } %>
     </div>
-    <a href="/save/<%= post._id %>" class="gobackhome"><i class="fa-solid fa-cloud-arrow-down"></i></a>
+
+    <% if(currentLoginUserStatus) { %>
+    <a href="/save/<%= post._id %>" class="gobackhome"
+      ><i class="fa-solid fa-cloud-arrow-down"></i
+    ></a>
+    <% } %>
   </div>
   <img src="<%= '/' + post.imgUrl %>" alt="<%= post.title %>" />
   <% if(post.userId._id.toString() === currentLoginUserId.toString()) { %>
-    <div class="action-div">
-      <form action="/admin/delete/<%= post._id%>" method="post">
-        <input hidden value="<%= csrfToken %>" name="_csrf" />
-        <button class="gobackhome"><i class="fa-solid fa-trash"></i></button>
-      </form>
-      <a href="/admin/edit/<%= post._id%>" class="gobackhome"><i class="fa-solid fa-file-pen"></i></a>
-    </div>
-    <% } %>
+  <div class="action-div">
+    <form action="/admin/delete/<%= post._id%>" method="post">
+      <input hidden value="<%= csrfToken %>" name="_csrf" />
+      <button class="gobackhome"><i class="fa-solid fa-trash"></i></button>
+    </form>
+    <a href="/admin/edit/<%= post._id%>" class="gobackhome"
+      ><i class="fa-solid fa-file-pen"></i
+    ></a>
+  </div>
+  <% } %>
   <hr />
   <p class="des"><%= post.description %></p>
 </section>

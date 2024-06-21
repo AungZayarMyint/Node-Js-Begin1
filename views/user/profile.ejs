@@ -21,7 +21,11 @@
     </h2>
     <div class="profile-premium">
       <a href="/admin/username">Set Username</a>
+      <% if(postsArr[0].userId.isPremium) { %>
+      <a href="/admin/premium-details">Premium Status</a>
+      <% } else { %>
       <a href="/admin/premium">Get Premium</a>
+      <% } %>
     </div>
   </div>
   <div class="post-container">
@@ -35,7 +39,6 @@
       <a href="/post/<%= post._id %>"><%= post.title %></a>
       <p class="post-description"><%= post.description.substr(0,400) %></p>
       <hr />
-      <p class="post-email">Post by : <%= post.userId.email %></p>
     </div>
     <% } %>
   </div>

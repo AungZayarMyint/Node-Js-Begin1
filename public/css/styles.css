@@ -138,6 +138,11 @@ button {
     rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
+.post-box i {
+  color: red;
+  font-size: 40px;
+}
+
 .post-title {
   font-size: 20px;
   text-transform: uppercase;
@@ -152,6 +157,10 @@ button {
 
 .post-email a {
   font-size: 16px;
+}
+
+.post-email .i-yellow {
+  color: yellow;
 }
 
 .post-description {
@@ -368,4 +377,42 @@ section.four .content a:hover {
 
 .premium--username i {
   color: yellow;
+}
+
+.user-index {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 40px;
+}
+
+.p-details {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.p-details h1 {
+  font-style: italic;
+  font-size: 30px;
+}
+
+.p-details span {
+  font-weight: 700;
+}
+
+.p-details .status {
+  background-color: green;
+  color: white;
+  padding: 1px 5px;
+  font-style: italic;
+  font-size: 18px;
+}
+
+.s-success {
+  text-align: center;
+}
+
+.s-success h1 {
+  font-size: 3rem;
+  font-style: italic;
 }

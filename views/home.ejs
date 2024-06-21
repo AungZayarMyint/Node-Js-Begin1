@@ -21,16 +21,32 @@
     <a href="/post/<%= post._id %>"><%= post.title %></a>
     <p class="post-description"><%= post.description.substr(0,400) %></p>
     <hr />
-    <% if(post.userId._id.toString() === currentUserId.toString()) { %>
-    <p class="post-email">
-      Post by : <a href="/admin/profile"><%= post.userId.email %></a>
-    </p>
-    <% } else { %>
-    <p class="post-email">
-      Post by :
-      <a href="/profile/<%= post.userId._id %>"><%= post.userId.email %></a>
-    </p>
-    <% } %>
+    <div class="user-index">
+      <% if(post.userId._id.toString() === currentUserId.toString()) { %>
+      <p class="post-email">
+        <a href="/admin/profile"><i class="fa-solid fa-user-secret"></i></a>
+      </p>
+      <% } else { %>
+      <p class="post-email">
+        <a href="/profile/<%= post.userId._id %>"
+          ><i class="fa-solid fa-user-secret"></i
+        ></a>
+      </p>
+      <% } %>
+
+      <div>
+        <p class="post-email"><%= post.userId.email %></p>
+        <% if(post.userId.isPremium) { %>
+        <p class="post-email">
+          <%= post.userId.username %><i
+            class="fa-solid fa-star animate__animated animate__flip animate__infinite infinite i-yellow"
+          ></i>
+        </p>
+        <% } else { %>
+        <p class="post-email"><%= post.userId.username %></p>
+        <% } %>
+      </div>
+    </div>
   </div>
   <% } %>
 </div>

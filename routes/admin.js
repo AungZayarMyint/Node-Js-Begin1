@@ -53,4 +53,8 @@ router.get("/premium", userController.renderPremiumPage);
 
 router.get("/subscription-success", userController.getSuccessPage);
 
+router.get("/premium-details", userController.getPremiumDetails);
+
+router.get("/subscription-cancel", userController.renderPremiumPage);
+
 module.exports = router;
