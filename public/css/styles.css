@@ -416,3 +416,47 @@ section.four .content a:hover {
   font-size: 3rem;
   font-style: italic;
 }
+
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 10%;
+  object-fit: cover;
+}
+
+.own-profiles {
+  width: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-photo-home {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.public-profiles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 10px;
+  margin-bottom: 10px;
+  width: auto;
+  object-fit: cover;
+}
+
+.createheader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.createheader h1 {
+  font-style: italic;
+  font-size: 3rem;
+}

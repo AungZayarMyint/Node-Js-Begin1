@@ -24,13 +24,32 @@
     <div class="user-index">
       <% if(post.userId._id.toString() === currentUserId.toString()) { %>
       <p class="post-email">
-        <a href="/admin/profile"><i class="fa-solid fa-user-secret"></i></a>
+        <a href="/admin/profile">
+          <% if(post.userId.profile_imgUrl && post.userId.isPremium ) { %>
+          <img
+            src="<%= '/' + post.userId.profile_imgUrl %>"
+            alt="<%= post.userId.username %>"
+            class="profile-photo-home"
+          />
+          <% } else { %>
+          <i class="fa-solid fa-user-secret"></i>
+          <% } %>
+        </a>
       </p>
       <% } else { %>
+
       <p class="post-email">
-        <a href="/profile/<%= post.userId._id %>"
-          ><i class="fa-solid fa-user-secret"></i
-        ></a>
+        <a href="/profile/<%= post.userId._id %>">
+          <% if(post.userId.profile_imgUrl && post.userId.isPremium ) { %>
+          <img
+            src="<%= '/' + post.userId.profile_imgUrl %>"
+            alt="<%= post.userId.username %>"
+            class="profile-photo-home"
+          />
+          <% } else { %>
+          <i class="fa-solid fa-user-secret"></i>
+          <% } %>
+        </a>
       </p>
       <% } %>
 

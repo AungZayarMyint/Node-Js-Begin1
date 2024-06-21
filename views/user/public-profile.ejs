@@ -1,21 +1,29 @@
 <%- include("../includes/head") %>
 
 <section class="profile">
-  <h1 class="title">
-    <i class="fa-solid fa-user-secret"></i> <%= currentUserEmail%>
-  </h1>
-
-  <% if(postsArr[0].userId.username) { %>
-  <p class="premium--username">
-    <%= postsArr[0].userId.username %> <% if(postsArr[0].userId.isPremium) { %>
-    <i
-      class="fa-solid fa-star animate__animated animate__flip animate__infinite infinite"
-    ></i>
+  <div class="public-profiles">
+    <% if(postsArr[0].userId.profile_imgUrl && postsArr[0].userId.isPremium ) {
+    %>
+    <img
+      src="<%= '/' + postsArr[0].userId.profile_imgUrl %>"
+      alt="<%= postsArr[0].userId.username %>"
+      class="profile-photo"
+    />
+    <% } else { %>
+    <i class="fa-solid fa-user-secret"></i>
+    <% } %> <%= currentUserEmail%> <% if(postsArr[0].userId.username) { %>
+    <p class="premium--username">
+      <%= postsArr[0].userId.username %> <% if(postsArr[0].userId.isPremium) {
+      %>
+      <i
+        class="fa-solid fa-star animate__animated animate__flip animate__infinite infinite"
+      ></i>
+      <% } %>
+    </p>
+    <% } else { %>
+    <p class="premium-username"><%= postsArr[0].userId.username %></p>
     <% } %>
-  </p>
-  <% } else { %>
-  <p class="premium-username"><%= postsArr[0].userId.username %></p>
-  <% } %>
+  </div>
 
   <div class="post-container">
     <% for(let post of postsArr) { %>

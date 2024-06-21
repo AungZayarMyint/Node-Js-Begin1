@@ -1,9 +1,17 @@
-<%- include("../includes/head") %>
-
+<%- include("../includes/head") %> <% if(postsArr.length > 0) {%>
 <section class="profile">
-  <div class="own-profile">
+  <div class="own-profiles">
     <h1 class="title">
-      <i class="fa-solid fa-user-secret"></i> <%= currentUserEmail%>
+      <% if(postsArr[0].userId.profile_imgUrl && postsArr[0].userId.isPremium )
+      { %>
+      <img
+        src="<%= '/' + postsArr[0].userId.profile_imgUrl %>"
+        alt="<%= postsArr[0].userId.username %>"
+        class="profile-photo"
+      />
+      <% } else { %>
+      <i class="fa-solid fa-user-secret"></i>
+      <% } %>
     </h1>
     <h2>
       <% if(postsArr[0].userId.username) { %>
@@ -22,6 +30,7 @@
     <div class="profile-premium">
       <a href="/admin/username">Set Username</a>
       <% if(postsArr[0].userId.isPremium) { %>
+      <a href="/admin/profile-image">Upload Profile Image</a>
       <a href="/admin/premium-details">Premium Status</a>
       <% } else { %>
       <a href="/admin/premium">Get Premium</a>
@@ -53,5 +62,9 @@
     <% } %>
   </div>
 </section>
-
-<%- include("../includes/foot") %>
+<% } else { %>
+<section class="createheader">
+  <h1>Create a new post first!</h1>
+  <a href="/admin/create-post">Press Here To Create Posts</a>
+</section>
+<% } %> <%- include("../includes/foot") %>
