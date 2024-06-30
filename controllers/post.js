@@ -1,5 +1,4 @@
 const Post = require("../models/post");
-const { post } = require("../routes/post");
 const { validationResult } = require("express-validator");
 const { formatISO9075 } = require("date-fns");
 const pdf = require("pdf-creator-node");
